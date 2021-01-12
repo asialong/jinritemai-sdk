@@ -16,6 +16,7 @@
         "抖店sdk",
         "sdk"
     ],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.0",
         "hanson/foundation-sdk": "^4.0",
