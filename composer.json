@@ -1,0 +1,40 @@
+{
+    "name": "asialong/jinritemai-sdk",
+    "description": "抖音抖店phpsdk",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "William Wang",
+            "email": "75025268@qq.com"
+        }
+    ],
+    "keywords": [
+        "今日特卖",
+        "jinritemai",
+        "抖店",
+        "抖店sdk",
+        "sdk"
+    ],
+    "require": {
+        "php": ">=7.0",
+        "hanson/foundation-sdk": "^4.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "php": ">=7.0",
+        "hanson/foundation-sdk": "^4.0",
+        "ext-json": "*",
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Asialong\\JinritemaiSdk\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Asialong\\JinritemaiSdk\\Tests\\": "tests/"
+        }
+    }
+}
