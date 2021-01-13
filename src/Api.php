@@ -33,10 +33,10 @@ class Api extends AbstractAPI
         $params['param_json'] = $this->paramsHandle($source_params);
         $params['timestamp'] = date("Y-m-d H:i:s",time());
         $params['v'] = '2';
-        $params['sign'] = $this->signature($params,$sign_method);
         if ($this->needToken) {
             $params['access_token'] = $this->doudian['oauth.access_token']->getToken();
         }
+        $params['sign'] = $this->signature($params,$sign_method);
         $http = $this->getHttp();
         $url = $this->getMethodUrl($method);
         $response = call_user_func_array([$http, 'post'], [$url, $params]);
@@ -110,6 +110,8 @@ class Api extends AbstractAPI
             }
         });
 
-        return $params;
+        ksort($params);
+
+        return json_encode($params,320);
     }
 }
