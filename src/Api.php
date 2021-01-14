@@ -97,7 +97,7 @@ class Api extends AbstractAPI
     /**
      * @param array $params
      *
-     * @return array
+     * @return string
      */
     protected function paramsHandle(array $params)
     {
@@ -112,7 +112,7 @@ class Api extends AbstractAPI
 
         ksort($params);
         $str = json_encode($params,320);
-        $str = Util::unicode_decode($str);
+        $str = Util::unicode_encode($str);
         return $str;
     }
 }

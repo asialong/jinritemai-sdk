@@ -37,7 +37,7 @@ class Util
      * @param $name
      * @return mixed|string
      */
-    public static function unicode_decode($name)
+    public static function unicode_decode2($name)
     {
         // 转换编码，将Unicode编码转换成可以浏览的utf-8编码
         $pattern = '/([\w]+)|(\\\u([\w]{4}))/i';
@@ -70,7 +70,7 @@ class Util
      * @param $str
      * @return mixed|string
      */
-    public static function unicode_decode2($str){
+    public static function unicode_decode($str){
         $json = '{"str":"' . $str . '"}';
         $arr = json_decode($json, true);
         if (empty($arr)) return '';
