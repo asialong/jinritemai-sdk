@@ -8,6 +8,7 @@ class AccessToken extends AbstractAccessToken
     const TOKEN_API = 'https://openapi-sandbox.jinritemai.com/oauth2/access_token';
     protected $code;
     protected $serviceId;
+    protected $isSelfUsed;
 
     /**
      * key of token in json.
@@ -23,11 +24,13 @@ class AccessToken extends AbstractAccessToken
      */
     protected $expiresJsonKey = 'expires_in';
 
-    public function __construct($clientId, $secret, $serviceId)
+    public function __construct($clientId, $secret, $serviceId, $http, $isSelfUsed = false)
     {
         $this->appId = $clientId;
         $this->secret = $secret;
         $this->serviceId = $serviceId;
+        $this->setHttp($http);
+        $this->isSelfUsed = $isSelfUsed;
     }
 
     /**
@@ -54,7 +57,7 @@ class AccessToken extends AbstractAccessToken
     }
 
     /**
-     * 检测是否有错误信息    todo 错误处理
+     * 检测是否有错误信息
      * @param $result
      * @return bool|mixed
      * @throws \Exception
@@ -62,8 +65,7 @@ class AccessToken extends AbstractAccessToken
     public function checkTokenResponse($result)
     {
         if (isset($result['err_no']) && (0 != $result['err_no'])) {
-            throw new \Exception('这里要改', 520);
-            throw new \Exception($result['error_response']['error_msg'], $result['error_response']['code']);
+            throw new JinritemaiSdkException($result['message'], $result['err_no']);
         }
 
         return true;
@@ -91,6 +93,14 @@ class AccessToken extends AbstractAccessToken
     public function getServiceId()
     {
         return $this->serviceId;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsSelfUsed()
+    {
+        return $this->isSelfUsed;
     }
 
     /**
