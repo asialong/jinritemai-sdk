@@ -111,7 +111,8 @@ class Api extends AbstractAPI
         });
 
         ksort($params);
-
-        return json_encode($params,320);
+        $str = json_encode($params,320);
+        $str = Util::unicode_decode($str);
+        return $str;
     }
 }
