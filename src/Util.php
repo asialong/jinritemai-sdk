@@ -13,6 +13,10 @@ class Util
         $resUnicode = '';
         foreach ($strArr as $str)
         {
+            if (!in_array($str,['&','<','>'])){
+                $resUnicode .= $str;
+                continue;
+            }
             $bin_str = '';
             $arr = is_array($str) ? $str : str_split($str);//获取字符内部数组表示,此时$arr应类似array(228, 189, 160)
             foreach ($arr as $value)
