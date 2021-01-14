@@ -1,14 +1,11 @@
 <?php
-
-
 namespace Asialong\JinritemaiSdk;
-
 
 use Hanson\Foundation\AbstractAPI;
 
 class Api extends AbstractAPI
 {
-    const URL = 'https://openapi-fxg.jinritemai.com/';
+    const URL = 'https://openapi-fxg.jinritemai.com';
 
     protected $doudian;
     protected $needToken;
@@ -33,10 +30,15 @@ class Api extends AbstractAPI
         $params['param_json'] = $this->paramsHandle($source_params);
         $params['timestamp'] = date("Y-m-d H:i:s",time());
         $params['v'] = '2';
-        if ($this->needToken) {
-            $params['access_token'] = $this->doudian['oauth.access_token']->getToken();
-        }
         $params['sign'] = $this->signature($params,$sign_method);
+        if ($this->needToken) {
+            if ($this->doudian['oauth.access_token']->getIsSelfUsed()){
+                $params['access_token'] = $source_params['access_token'];
+            }else{
+                $params['access_token'] = $this->doudian['oauth.access_token']->getToken();
+            }
+        }
+        if ('HmacSHA256' == $sign_method) $params['sign_method'] = 'hmac-sha256';
         $http = $this->getHttp();
         $url = $this->getMethodUrl($method);
         $response = call_user_func_array([$http, 'post'], [$url, $params]);
@@ -75,10 +77,10 @@ class Api extends AbstractAPI
         });
 
         if ('md5' == $sign_method){
-            return strtoupper(md5(sprintf('%s%s%s', $this->doudian['oauth.access_token']->getSecret(), $paramsStr, $this->doudian['oauth.access_token']->getSecret())));
+            return strtolower(md5(sprintf('%s%s%s', $this->doudian['oauth.access_token']->getSecret(), $paramsStr, $this->doudian['oauth.access_token']->getSecret())));
         }
         if ('HmacSHA256' == $sign_method){
-            return strtoupper(hash_hmac("sha256",sprintf('%s%s%s', $this->doudian['oauth.access_token']->getSecret(), $paramsStr, $this->doudian['oauth.access_token']->getSecret()),'',true));
+            return strtolower(hash_hmac("sha256",sprintf('%s%s%s', $this->doudian['oauth.access_token']->getSecret(), $paramsStr, $this->doudian['oauth.access_token']->getSecret()),$this->doudian['oauth.access_token']->getSecret()));
         }
         return false;
     }
@@ -101,6 +103,7 @@ class Api extends AbstractAPI
      */
     protected function paramsHandle(array $params)
     {
+        if (isset($params['access_token'])) unset($params['access_token']);
         array_walk($params, function (&$item) {
             if (is_array($item)) {
                 $item = json_encode($item);
