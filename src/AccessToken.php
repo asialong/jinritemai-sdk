@@ -25,7 +25,7 @@ class AccessToken extends AbstractAccessToken
      */
     protected $expiresJsonKey = 'expires_in';
 
-    public function __construct(array $appParams, Foundation $http)
+    public function __construct(array $appParams, $http)
     {
         $this->appId = $appParams['client_id'];
         $this->secret = $appParams['client_secret'];
