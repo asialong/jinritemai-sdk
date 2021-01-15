@@ -27,7 +27,8 @@ class Api extends AbstractAPI
     {
         $params['method'] = $method;
         $params['app_key'] = $this->doudian['oauth.access_token']->getClientId();
-        $params['param_json'] = $this->paramsHandle($source_params);
+        $paramJson = $this->paramsHandle($source_params);
+        $params['param_json'] = $paramJson == '[]' ? '{}' : $paramJson;
         $params['timestamp'] = date("Y-m-d H:i:s",time());
         $params['v'] = '2';
         $params['sign'] = $this->signature($params,$sign_method);
