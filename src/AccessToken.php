@@ -2,6 +2,7 @@
 namespace Asialong\JinritemaiSdk;
 
 use Hanson\Foundation\AbstractAccessToken;
+use Hanson\Foundation\Foundation;
 
 class AccessToken extends AbstractAccessToken
 {
@@ -24,13 +25,13 @@ class AccessToken extends AbstractAccessToken
      */
     protected $expiresJsonKey = 'expires_in';
 
-    public function __construct($clientId, $secret, $serviceId, $http, $isSelfUsed = false)
+    public function __construct(array $appParams, Foundation $http)
     {
-        $this->appId = $clientId;
-        $this->secret = $secret;
-        $this->serviceId = $serviceId;
+        $this->appId = $appParams['client_id'];
+        $this->secret = $appParams['client_secret'];
+        $this->serviceId = $appParams['service_id'];
+        $this->isSelfUsed = $appParams['is_self_used'];
         $this->setHttp($http);
-        $this->isSelfUsed = $isSelfUsed;
     }
 
     /**
