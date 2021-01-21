@@ -44,7 +44,7 @@ class Api extends AbstractAPI
         $url = $this->getMethodUrl($method);
         $response = call_user_func_array([$http, 'post'], [$url, $params]);
         $result = json_decode(strval($response->getBody()), true);
-        $this->checkErrorAndThrow($result);
+        //$this->checkErrorAndThrow($result);
         return $result;
     }
 
