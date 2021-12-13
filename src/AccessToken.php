@@ -9,7 +9,6 @@ class AccessToken extends AbstractAccessToken
     const TOKEN_API = 'https://openapi-sandbox.jinritemai.com/oauth2/access_token';
     protected $code;
     protected $serviceId;
-    protected $isSelfUsed;
 
     /**
      * key of token in json.
@@ -30,7 +29,6 @@ class AccessToken extends AbstractAccessToken
         $this->appId = $appParams['client_id'];
         $this->secret = $appParams['client_secret'];
         $this->serviceId = $appParams['service_id'];
-        $this->isSelfUsed = $appParams['is_self_used'];
         $this->setHttp($http);
     }
 
@@ -94,14 +92,6 @@ class AccessToken extends AbstractAccessToken
     public function getServiceId()
     {
         return $this->serviceId;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getIsSelfUsed()
-    {
-        return $this->isSelfUsed;
     }
 
     /**

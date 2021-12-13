@@ -33,11 +33,7 @@ class Api extends AbstractAPI
         $params['v'] = '2';
         $params['sign'] = $this->signature($params,$sign_method);
         if ($this->needToken) {
-            if ($this->doudian['oauth.access_token']->getIsSelfUsed()){
-                $params['access_token'] = $source_params['access_token'];
-            }else{
-                $params['access_token'] = $this->doudian['oauth.access_token']->getToken();
-            }
+            $params['access_token'] = $source_params['access_token'];
         }
         if ('HmacSHA256' == $sign_method) $params['sign_method'] = 'hmac-sha256';
         $http = $this->getHttp();
